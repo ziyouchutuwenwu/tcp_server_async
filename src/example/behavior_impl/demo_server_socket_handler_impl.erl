@@ -5,7 +5,7 @@
 -export([on_client_connected/3, on_client_data/3, on_disconnected/2]).
 
 on_client_connected(Socket, IP, Port) ->
-  io:format("客户端 ~ts:~p 连接~n", [IP, Port]),
+  io:format("客户端 ~ts:~p 连接, 进程id ~p~n", [IP, Port, self()]),
   tcp_server_demo:send_by_socket(Socket),
   noreplay.
 
@@ -15,5 +15,5 @@ on_client_data(_Socket, Cmd, InfoBin) ->
   noreplay.
 
 on_disconnected(Socket, Reason) ->
-  io:format("客户端 ~p 由于 ~s 断开连接~n", [Socket, Reason]),
+  io:format("客户端 ~p 由于 ~s 断开连接, 进程id ~p~n", [Socket, Reason, self()]),
   noreplay.
