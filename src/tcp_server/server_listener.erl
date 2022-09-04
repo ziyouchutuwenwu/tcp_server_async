@@ -1,8 +1,12 @@
 -module(server_listener).
 
--export([listen/3, accept/2]).
+-export([start_link/3, init/3, accept/2]).
 
-listen(Port, TcpOptions, ConfigBehaviorImpl) ->
+start_link(Port, TcpOptions, ConfigBehaviorImpl) ->
+  Pid = spawn_link(?MODULE,init,[Port, TcpOptions, ConfigBehaviorImpl]),
+  {ok, Pid}.
+
+init(Port, TcpOptions, ConfigBehaviorImpl) ->
   client_handler_sup:start_link(),
   {ok, ListenSocket} = gen_tcp:listen(Port, TcpOptions),
   accept(ListenSocket, ConfigBehaviorImpl).
