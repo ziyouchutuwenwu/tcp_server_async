@@ -4,7 +4,6 @@
 
 start_link(Sock, ConfigBehaviorImpl) ->
   Pid = spawn_link(?MODULE,recv_loop,[Sock, ConfigBehaviorImpl]),
-  % gen_tcp:controlling_process(Sock, Pid),
   {ok, Pid}.
 
 recv_loop(Sock, ConfigBehaviorImpl) ->

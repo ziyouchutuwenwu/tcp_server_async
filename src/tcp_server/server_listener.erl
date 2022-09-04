@@ -17,6 +17,6 @@ accept(ListenSocket, ConfigBehaviorImpl) ->
   SocketHandlerModule = ConfigBehaviorImpl:get_socket_handler_module(),
   SocketHandlerModule:on_client_connected(Sock, ClientIpStr, ClientPort),
 
-  % client_handler:recv_loop(Sock, ConfigBehaviorImpl),
-  client_handler_sup:start_child(Sock, ConfigBehaviorImpl),
+  {ok, Pid} = client_handler_sup:start_child(Sock, ConfigBehaviorImpl),
+  gen_tcp:controlling_process(Sock, Pid),
   accept(ListenSocket, ConfigBehaviorImpl).
