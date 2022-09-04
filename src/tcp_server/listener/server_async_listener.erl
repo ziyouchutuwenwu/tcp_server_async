@@ -18,7 +18,7 @@ accept_loop(ListenSocket, ConfigBehaviorImpl) ->
       set_sockopt(ListenSocket, NewSock),
       {ok, Pid} = client_handler_sup:start_child(NewSock, ConfigBehaviorImpl),
       gen_tcp:controlling_process(NewSock, Pid),
-      Pid ! {connected, NewSock},
+      Pid ! {tcp_connected, NewSock},
       accept_loop(ListenSocket, ConfigBehaviorImpl)
   end.
 

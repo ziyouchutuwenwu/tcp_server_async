@@ -15,5 +15,5 @@ accept(ListenSocket, ConfigBehaviorImpl) ->
   {ok, NewSock} = gen_tcp:accept(ListenSocket),
   {ok, Pid} = client_handler_sup:start_child(NewSock, ConfigBehaviorImpl),
   gen_tcp:controlling_process(NewSock, Pid),
-  Pid ! {connected, NewSock},
+  Pid ! {tcp_connected, NewSock},
   accept(ListenSocket, ConfigBehaviorImpl).

@@ -9,7 +9,7 @@ start_link(Sock, ConfigBehaviorImpl) ->
 recv_loop(Sock, ConfigBehaviorImpl) ->
   prim_inet:async_recv(Sock, 0, -1),
   receive
-    {connected, _Sock} ->
+    {tcp_connected, _Sock} ->
       {ok, {ClientIp, ClientPort}} = inet:peername(Sock),
       ClientIpStr = inet:ntoa(ClientIp),
       SocketHandlerModule = ConfigBehaviorImpl:get_socket_handler_module(),
