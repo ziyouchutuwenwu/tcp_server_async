@@ -16,17 +16,9 @@ accept_loop(ListenSocket, ConfigBehaviorImpl) ->
   receive
     {inet_async, _ListenSocket, _Ref, {ok, NewSock}} ->
       set_sockopt(ListenSocket, NewSock),
-
-      {ok, {ClientIp, ClientPort}} = inet:peername(NewSock),
-      ClientIpStr = inet:ntoa(ClientIp),
-
-      % 连接回调
-      SocketHandlerModule = ConfigBehaviorImpl:get_socket_handler_module(),
-      SocketHandlerModule:on_client_connected(NewSock, ClientIpStr, ClientPort),
-
       {ok, Pid} = client_handler_sup:start_child(NewSock, ConfigBehaviorImpl),
       gen_tcp:controlling_process(NewSock, Pid),
-
+      Pid ! {connected, NewSock},
       accept_loop(ListenSocket, ConfigBehaviorImpl)
   end.
 
