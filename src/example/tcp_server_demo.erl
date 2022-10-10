@@ -7,7 +7,7 @@ tcp_opts() ->
   [binary,
    % active 必须为 false
    {active, false},
-   {packet, 0},
+   {packet, 2},
    {nodelay, true},
    {reuseaddr, true},
    {keepalive, true},

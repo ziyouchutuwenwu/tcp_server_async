@@ -11,7 +11,7 @@ on_client_connected(Socket, IP, Port) ->
 
 on_client_data(_Socket, Cmd, InfoBin) ->
   Info = utf8_list:binary_to_list(InfoBin),
-  io:format("收到客户端数据~p ~ts~n", [Cmd, Info]),
+  io:format("收到客户端数据 ~p ~ts~n", [Cmd, Info]),
   noreplay.
 
 on_disconnected(Socket, Reason) ->
