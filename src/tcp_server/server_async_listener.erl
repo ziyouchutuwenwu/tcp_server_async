@@ -7,7 +7,6 @@ start_link(Port, TcpOptions, ConfigBehaviorImpl) ->
   {ok, Pid}.
 
 init(Port, TcpOptions, ConfigBehaviorImpl) ->
-  client_handler_sup:start_link(),
   {ok, ListenSocket} = gen_tcp:listen(Port, TcpOptions),
   accept_loop(ListenSocket, ConfigBehaviorImpl).
 
@@ -25,8 +24,7 @@ accept_loop(ListenSocket, ConfigBehaviorImpl) ->
 % socket 生成以后，需要通过这个函数设置一下，否则发送数据会崩溃
 set_sockopt(ListenSocket, ClientSocket) ->
   true = inet_db:register_socket(ClientSocket, inet_tcp),
-  case prim_inet:getopts(ListenSocket,
-                         [active, nodelay, keepalive, delay_send, priority, tos])
+  case prim_inet:getopts(ListenSocket,[active, nodelay, keepalive, delay_send, priority, tos])
   of
     {ok, Opts} ->
       case prim_inet:setopts(ClientSocket, Opts) of
