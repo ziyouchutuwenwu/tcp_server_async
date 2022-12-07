@@ -1,4 +1,4 @@
--module(client_handler_sup).
+-module(tcp_client_sup).
 
 -behaviour(supervisor).
 

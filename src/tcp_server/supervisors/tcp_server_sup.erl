@@ -28,12 +28,12 @@ init([Port, TcpOptions, ConfigBehaviorImpl]) ->
         modules => [server_async_listener]
       },
       #{
-        id => client_handler_sup,
-        start => {client_handler_sup, start_link, []},
+        id => tcp_client_sup,
+        start => {tcp_client_sup, start_link, []},
         restart => permanent,
         shutdown => infinity,
         type => supervisor,
-        modules => [client_handler_sup]
+        modules => [tcp_client_sup]
       }
   ],
 
